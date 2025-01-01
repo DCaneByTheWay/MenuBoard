@@ -1,7 +1,15 @@
+# TODO:
+"""
+Implement other separators, "OR", "&", "w/", "in"
+Implement "w/" to prefix the ingredient list
+Parse text file to fill menu list
+Solve Choice in title "Breakfast (Bacon OR Chicken)"
+"""
+
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy, QLayout
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QFontMetrics, QIcon
+from PyQt5.QtGui import QFont, QIcon
 
 class MenuApp(QWidget):
                 
@@ -53,17 +61,34 @@ class MenuApp(QWidget):
                 {"item": "Cheese Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$6.50"},
                 {"item": "Chicken Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$8.50"},
                 {"item": "Pepperoni Quesadilla", "ingredients": ["Marinara", "Jalapeno Ranch"], "price": "$8.50"},
-                {"item": "Spicy Chicken Bacon Ranch Quesadilla", "ingredients": ["Chicken", "Bacon", "Jalapenos", "Cheese", "Jalapeno Ranch", "Salsa"], "price": "$10.50"},
-                {"item": "Chicken Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$8.50"},
-                {"item": "Spicy Chicken Bacon Ranch Quesadilla", "ingredients": ["Chicken", "Bacon", "Jalapenos", "Cheese", "Jalapeno Ranch", "Salsa"], "price": "$10.50"},
-                {"item": "NO INGREDIENTS ITEM", "ingredients": [], "price": "$99.50"},
-                {"item": "Chicken Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$8.50"}
+                {"item": "Spicy Chicken Bacon Ranch Quesadilla", "ingredients": ["Chicken", "Bacon", "Jalapenos", "Cheese", "Jalapeno Ranch", "Salsa"], "price": "$10.50"}
             ],
             "Sides": [
                 {"item": "Fritos", "ingredients": [], "price": "$2.00"},
                 {"item": "2 Deviled Eggs", "ingredients": ["Jalapeno", "Regular"], "price": "$3.00"},
                 {"item": "2 Deviled Eggs", "ingredients": ["Bacon", "Bacon Jalapeno"], "price": "$3.50"},
                 {"item": "Brown Sugar Bacon Popcorn", "ingredients": [], "price": "$4.50"}
+            ],
+            "Breakfast (Bacon OR Chicken)": [
+                {"item": "Breakfast Quesadilla", "ingredients": ["Meat", "Egg", "Cheese", "Sour Cream", "Salsa"], "price": "$8.50"},
+                {"item": "Burrito OR Sandwich OR Bowl", "ingredients": ["Meat", "Egg", "Cheese", "Tortilla", "TX Toast", "Bowl", "Salsa"], "price": "$6.40"},
+                {"item": "Fruit Yogurt Granola Parfait", "ingredients": [], "price": "$6.50"}
+            ],
+            "Sandwiches": [
+                {"item": "Spicy Chicken Bacon Ranch Grilled Cheese", "ingredients": [], "price": "$7.50"},
+                {"item": "Pepperoni Pizza Melt", "ingredients": [], "price": "$6.50"},
+                {"item": "Grilled Rueben", "ingredients": [], "price": "$6.50"},
+                {"item": "Bacon Grilled Cheese", "ingredients": [], "price": "$6.50"},
+                {"item": "Jalepeno Grilled Cheese", "ingredients": [], "price": "$6.00"},
+                {"item": "Grilled Cheese", "ingredients": [], "price": "$5.50"},
+                {"item": "Egg Salad Sandwich", "ingredients": [], "price": "$5.50"},
+                {"item": "PB & J", "ingredients": ["Grilled OR Cold"], "price": "$5.50"}
+            ],
+            "Sweets": [
+                {"item": "Pumpkin Bread", "ingredients": [], "price": "$3.50"},
+                {"item": "2 Chocolate Peanut Butter Balls", "ingredients": [], "price": "$3.50"},
+                {"item": "Big Chocolate Chip Cookie", "ingredients": [], "price": "$4.50"},
+                {"item": "Snickers Tres Leches Cake", "ingredients": [], "price": "$6.50"}
             ],
             "Drinks": [
                 {"item": "Smoothie", "ingredients": ['Strawberries', 'Bananas', 'Orange Juice'], "price": "$6.50"},
@@ -93,6 +118,8 @@ class MenuApp(QWidget):
 
             # grid layout for section items
             gridLayout = QGridLayout()
+            gridLayout.setContentsMargins(0,0,0,0)
+            gridLayout.setSpacing(0)
 
             # variable to maintain row displacement due to ingredient wrapping to next line
             rowDisplacement = 0
@@ -100,7 +127,7 @@ class MenuApp(QWidget):
             # iterate through items and add to grid layout
             for row, menu in enumerate(items):
 
-                item = menu["item"]
+                item = menu["item"] + ': '
                 price = menu["price"]
 
                 #print(f'CURRENT ITEM: {item}')
@@ -109,9 +136,6 @@ class MenuApp(QWidget):
                 itemLabel = QLabel(item)
                 itemLabel.setFont(itemFont)
                 itemLabel.setCursor(Qt.PointingHandCursor)
-                #itemLabel.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
-                fm = QFontMetrics(itemLabel.font())
-                #itemLabel.setFixedWidth(fm.width(itemLabel.text()) + 15)
                 #itemLabel.setStyleSheet("background-color: yellow; border: 2px solid red;")
                 itemLabel.setAlignment(Qt.AlignLeft)
 
@@ -133,7 +157,7 @@ class MenuApp(QWidget):
                 hasIngredients = False
 
                 # iterate through ingredients and create label for each
-                for idx, ingredient in enumerate(menu["ingredients"]):
+                for ingredient in menu["ingredients"]:
 
                     # item has ingredients if we are in the loop
                     hasIngredients = True
@@ -145,9 +169,6 @@ class MenuApp(QWidget):
                     ingredientLabel.setFont(ingredientFont)
                     ingredientLabel.setAlignment(Qt.AlignLeft)
                     ingredientLabel.setCursor(Qt.PointingHandCursor)
-                    #ingredientLabel.setFixedWidth(len(ingredient) * 10)
-                    fm = QFontMetrics(ingredientLabel.font())
-                    #ingredientLabel.setFixedWidth(fm.width(ingredientLabel.text()) + 15)
                     #ingredientLabel.setStyleSheet("background-color: orange; border: 2px solid red;")
 
 
@@ -165,6 +186,8 @@ class MenuApp(QWidget):
                         commaLabel = QLabel(',')
                         #commaLabel.setStyleSheet("background-color: orange; border: 2px solid red;")
                         commaLabel.setFixedWidth(20)
+                        commaLabel.setFont(QFont("Arial", fontsize, QFont.Bold))
+                        currentLength += 2 # allocate space for comma space ", "
                         overflowIngredientLayout.addWidget(commaLabel)
 
                     # else, add ingredient label to ingredient layout
@@ -176,6 +199,8 @@ class MenuApp(QWidget):
                         commaLabel = QLabel(',')
                         #commaLabel.setStyleSheet("background-color: orange; border: 2px solid red;")
                         commaLabel.setFixedWidth(20)
+                        commaLabel.setFont(QFont("Arial", fontsize, QFont.Bold))
+                        currentLength += 2 # allocate space for comma space ", "
                         ingredientLayout.addWidget(commaLabel)
 
                     # store the ingredient label in the menu dict for later toggling
@@ -201,9 +226,18 @@ class MenuApp(QWidget):
 
                     if hasIngredients: # if there are ingredients (so we use commas), remove comma
                         self.removeLastItemFromLayout(overflowIngredientLayout)
+
+                    # add spacer item at end of layout to fill blank space
+                    overflowIngredientLayout.addSpacerItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
+
                 else:
                     if hasIngredients: # if there are ingredients (so we use commas), remove comma
                         self.removeLastItemFromLayout(ingredientLayout)
+
+                # add spacer item at end of layout to fill blank space
+                ingredientLayout.addSpacerItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
+
+
 
             # add the grid layout to the main layout
             mainLayout.addLayout(gridLayout)
@@ -213,7 +247,6 @@ class MenuApp(QWidget):
 
         # set window properties
         self.setWindowTitle('Positive Plates Menu Application')
-        self.setGeometry(100, 100, 600, 400)
         self.setWindowIcon(QIcon('PositivePlatesIcon.png'))
 
     # toggle strikethrough for the entire item (item + ingredients + price)
