@@ -1,0 +1,25 @@
+        self.menuSections = {
+            "Lunch: (Add Condiments, Jalapenos, etc. $0.50 More)": [
+                {"item": "Frito Chili Pie", "ingredients": ["Fritos", "Chili", "Cheese", "Onion", "Jalapeno"], "price": "$6.50"},
+                {"item": "Cheese Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$6.50"},
+                {"item": "Chicken Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$8.50"},
+                {"item": "Pepperoni Quesadilla", "ingredients": ["Marinara", "Jalapeno Ranch"], "price": "$8.50"},
+                {"item": "Spicy Chicken Bacon Ranch Quesadilla", "ingredients": ["Chicken", "Bacon", "Jalapenos", "Cheese", "Jalapeno Ranch", "Salsa"], "price": "$10.50"},
+                {"item": "Chicken Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$8.50"},
+                {"item": "Spicy Chicken Bacon Ranch Quesadilla", "ingredients": ["Chicken", "Bacon", "Jalapenos", "Cheese", "Jalapeno Ranch", "Salsa"], "price": "$10.50"},
+                {"item": "NO INGREDIENTS ITEM", "ingredients": [], "price": "$99.50"},
+                {"item": "Chicken Quesadilla", "ingredients": ["Sour Cream", "Salsa"], "price": "$8.50"}
+            ],
+            "Sides": [
+                {"item": "Fritos", "ingredients": [], "price": "$2.00"},
+                {"item": "2 Deviled Eggs", "ingredients": ["Jalapeno", "Regular"], "price": "$3.00"},
+                {"item": "2 Deviled Eggs", "ingredients": ["Bacon", "Bacon Jalapeno"], "price": "$3.50"},
+                {"item": "Brown Sugar Bacon Popcorn", "ingredients": [], "price": "$4.50"}
+            ],
+            "Drinks": [
+                {"item": "Smoothie", "ingredients": ['Strawberries', 'Bananas', 'Orange Juice'], "price": "$6.50"},
+                {"item": "Arizona Sweet Tea", "ingredients": [], "price": "$1.50"},
+                {"item": "Pop", "ingredients": ["Coke", "Cream Soda", "Diet Coke"], "price": "$1.50"},
+                {"item": "Water Bottle", "ingredients": [], "price": "$1.50"}
+            ]
+        }
